@@ -25,6 +25,7 @@
 {
     [super viewDidAppear:animated];
     
+    // Initially hide the header
     self.tableView.contentOffset = CGPointMake(0, self.tableView.tableHeaderView.bounds.size.height);
 }
 
