@@ -59,42 +59,49 @@
     self.tableView.tableHeaderView = self.headerView;
 }
 
+- (void) updateHeaderSticky:(BOOL)sticky
+{
+    self.tableView.tableHeaderView=nil;
+    [self.headerView removeFromSuperview];
+    
+    CGRect headerFrame = self.headerView.frame;
+    
+    if(sticky){
+        self.tableView.tableHeaderView=self.headerView;
+        
+        headerFrame.origin.y = 0;
+        
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+        self.tableView.contentOffset = CGPointMake(0, 0);
+    } else {
+        [self.view addSubview:self.headerView];
+        
+        headerFrame.origin.y = self.tableView.frame.origin.y;
+        
+        self.tableView.contentInset = UIEdgeInsetsMake(self.headerView.bounds.size.height, 0, 0, 0);
+        self.tableView.contentOffset = CGPointMake(0, -self.headerView.bounds.size.height);
+    }
+    
+    self.headerView.frame = headerFrame;
+    
+    self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
+}
+
 #pragma mark UISegmentControl
 
 -(void)segmentedControlIndexChanged:(UISegmentedControl*)seg
 {
-    CGRect headerFrame;
-    
     switch (seg.selectedSegmentIndex)
     {
         case 0:
-            self.tableView.tableHeaderView=nil;
-            self.tableView.tableHeaderView=self.headerView;
-
-            headerFrame = self.headerView.frame;
-            headerFrame.origin.y = 0;
-            self.headerView.frame = headerFrame;
-            
-            self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
-            self.tableView.contentOffset = CGPointMake(0, 0);
+            [self updateHeaderSticky:YES];
             break;
         case 1:
-            [self.headerView removeFromSuperview];
-            self.tableView.tableHeaderView=nil;
-            [self.view addSubview:self.headerView];
-            
-            headerFrame = self.headerView.frame;
-            headerFrame.origin.y = self.tableView.frame.origin.y;
-            self.headerView.frame = headerFrame;
-            
-            self.tableView.contentInset = UIEdgeInsetsMake(self.headerView.bounds.size.height, 0, 0, 0);
-            self.tableView.contentOffset = CGPointMake(0, -self.headerView.bounds.size.height);
+            [self updateHeaderSticky:NO];
             break;
         default:
             break;
     }
-    
-    self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
 }
 
 #pragma mark UITableViewDelegate
