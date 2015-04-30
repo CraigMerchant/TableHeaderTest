@@ -25,7 +25,7 @@
 {
     [super viewDidAppear:animated];
     
-    self.tableView.contentOffset = CGPointMake(0, 60);
+    self.tableView.contentOffset = CGPointMake(0, self.tableView.tableHeaderView.bounds.size.height);
 }
 
 - (BOOL) prefersStatusBarHidden
@@ -47,8 +47,8 @@
     
     seg.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     
-    [seg insertSegmentWithTitle:@"All Mail" atIndex:0 animated:NO];
-    [seg insertSegmentWithTitle:@"Flagged" atIndex:1 animated:NO];
+    [seg insertSegmentWithTitle:@"Scroll" atIndex:0 animated:NO];
+    [seg insertSegmentWithTitle:@"Sticky" atIndex:1 animated:NO];
     
     seg.selectedSegmentIndex = 0;
     
@@ -87,8 +87,8 @@
             headerFrame.origin.y = self.tableView.frame.origin.y;
             self.headerView.frame = headerFrame;
             
-            self.tableView.contentInset = UIEdgeInsetsMake(60, 0, 0, 0);
-            self.tableView.contentOffset = CGPointMake(0, -60);
+            self.tableView.contentInset = UIEdgeInsetsMake(self.headerView.bounds.size.height, 0, 0, 0);
+            self.tableView.contentOffset = CGPointMake(0, -self.headerView.bounds.size.height);
             break;
         default:
             break;
