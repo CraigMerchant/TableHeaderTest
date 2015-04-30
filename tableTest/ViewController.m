@@ -38,24 +38,20 @@
 {
     self.headerView.frame = CGRectMake(0, 0, self.headerView.frame.size.width, 60);
     
-    EventView *testView = [[EventView alloc] initWithFrame:self.headerView.bounds];
-    testView.backgroundColor = [UIColor colorWithRed:(247.0/255.0) green:(247.0/255.0) blue:(245.0/255.0) alpha:1.0];
-    testView.userInteractionEnabled=TRUE;
-    testView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+    EventView *newHeaderView = [[EventView alloc] initWithFrame:self.headerView.bounds];
+    newHeaderView.backgroundColor = [UIColor colorWithRed:(247.0/255.0) green:(247.0/255.0) blue:(245.0/255.0) alpha:1.0];
+    newHeaderView.userInteractionEnabled=TRUE;
+    newHeaderView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     
-    UISegmentedControl *seg = [[UISegmentedControl alloc] initWithFrame:CGRectMake(10, 16, testView.bounds.size.width-20, 29)];
+    UISegmentedControl *seg = [[UISegmentedControl alloc] initWithFrame:CGRectMake(10, 16, newHeaderView.bounds.size.width-20, 29)];
     [seg addTarget:self action:@selector(segmentedControlIndexChanged:) forControlEvents:UIControlEventValueChanged];
-    
     seg.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-    
     [seg insertSegmentWithTitle:@"Scroll" atIndex:0 animated:NO];
     [seg insertSegmentWithTitle:@"Sticky" atIndex:1 animated:NO];
-    
     seg.selectedSegmentIndex = 0;
+    [newHeaderView addSubview:seg];
     
-    [testView addSubview:seg];
-    
-    [self.headerView addSubview:testView];
+    [self.headerView addSubview:newHeaderView];
     
     self.tableView.tableHeaderView = self.headerView;
 }
